@@ -29,7 +29,6 @@ class TodoList extends Component {
         this.getTodo();
     }
 
-
     getTodo() {
         axios.get(API_ROOT +'/todos', {
             headers: {
@@ -54,13 +53,25 @@ class TodoList extends Component {
             })
             .then(response => {
                 console.log(response);
-                this.setState({redirect: true});
+                this.setState({redirect: true, newTodo: ''});
             })
             .catch(error => {
                 console.error(error);
             })
         this.getTodo();
+    }
 
+    delete(id){
+        axios.delete(API_ROOT + '/todos/' + id, {
+            headers: {
+                Authorization: `Bearer ${this.state.token}`
+            }
+        })
+        .then(() => this.getTodo())
+        .catch((response) => {
+            console.log(response);
+            this.getTodo();
+        })
     }
 
     handleChange(e) {  
@@ -98,7 +109,8 @@ class TodoList extends Component {
                                     key = {item.id}>
                                         {item.content}
                                         <button
-                                            className ='btn'>
+                                            className ='btn'
+                                            onClick = {(e) => this.delete(item.id)}>
                                             Delete
                                         </button>
                                 </li>
@@ -106,7 +118,6 @@ class TodoList extends Component {
                         })}
                     </ul>
                 </main>
-        
             </div>
         )
     }

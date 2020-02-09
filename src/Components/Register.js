@@ -79,6 +79,7 @@ class Register extends Component {
                                 <div className = 'section'>
                                     <label className = 'email'>Email</label>
                                     <input 
+                                        className = 'input'
                                         type = 'email'
                                         name = 'email'
                                         placeholder = 'Enter your email...'
@@ -90,6 +91,7 @@ class Register extends Component {
                                 <div className = 'section'>
                                     <label className = 'password'>Password</label>
                                     <input 
+                                        className = 'input'
                                         type = 'password'
                                         name = 'password'
                                         placeholder = 'Enter your password...' 
