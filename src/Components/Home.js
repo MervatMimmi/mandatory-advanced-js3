@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import {Helmet} from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import {Redirect} from 'react-router-dom';
-import axios from 'axios';
 import jwt from 'jsonwebtoken';
 import {updateToken, token$} from './Store';
 import TodoList from './TodoList';
@@ -13,16 +12,19 @@ class Home extends Component {
         super(props);
         this.state = {
             token: token$.value,
-            email: '',
+            decodedEmail: '',
         };
         this.logOut = this.logOut.bind(this);
     }
 
     componentDidMount() {
        this.subscribe = token$.subscribe((token) => {
-           this.setState({token}); // varför? kan jag ta bort den?
-           const decode = jwt.decode(this.state.token);
-           this.setState({email: decode.email});
+           this.setState({token}); 
+           if (token) {
+             const decode = jwt.decode(this.state.token);
+             console.log(decode);
+             this.setState({decodedEmail: decode.email});
+           }
        });
     }
     
@@ -36,7 +38,7 @@ class Home extends Component {
     
     render() {
 
-        let name = this.state.email.split('@')[0];
+        let name = this.state.decodedEmail.split('@')[0];
         let username = name.charAt(0).toUpperCase() + name.slice(1);
 
         if(!this.state.token){
@@ -47,7 +49,7 @@ class Home extends Component {
            <div>
                <div>
                    <Helmet>
-                       <title>TodoList</title>
+                       <title>Home</title>
                    </Helmet>
                </div>
                <div className = 'window'>
@@ -55,8 +57,8 @@ class Home extends Component {
                        TodoList
                    </div>
                    <div className = 'frame'>
-                       <div className = 'cat'><img src = {Cat}/></div>
-                       <div>
+                       <div className = 'cat'><img src = {Cat} alt = 'cat'/></div>
+                       <div className = 'welcome'>
                            <h3>Welcome {username}</h3>
                        </div>
                         <TodoList />

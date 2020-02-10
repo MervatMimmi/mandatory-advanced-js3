@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import {Helmet} from 'react-helmet';
-import {Redirect} from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
+import {Redirect, Link} from 'react-router-dom';
 import axios from 'axios';
 import {token$, updateToken} from './Store';
 import '../App.css';
@@ -43,13 +43,14 @@ class Login extends Component {
 
         axios.post(API_ROOT + '/auth', loginData)
             .then((response) => {
-                this.setState({isLoggedIn :true});
                 updateToken(response.data.token);
+                this.setState({isLoggedIn :true});
                 window.localStorage.setItem('token', response.data.token)
                 })
-            .catch((error) => {
-                this.setState({isLoggedIn: false});
-                console.error(error);
+            .catch(response => {
+                if(response.response.status === 401){
+                    this.setState({infoMsg: 'Email or password incorrect'})
+                } 
                 });
         }
 
@@ -69,19 +70,17 @@ class Login extends Component {
                     </Helmet>
                 </div>
             <   div className ='window'>
-                    <div className = 'header'>
-                        Login
-                    </div>
                     <div className = 'frame'>
-                        <div className = 'cat'><img src = {Cat} /></div>
+                        <div className = 'cat'><img src = {Cat} alt = 'cat' /></div>
                         <div className = 'formContainer'>
+                        <div className = 'header'>Member login</div>
                             <form onSubmit = {this.handleSubmit}>
                                 <div className = 'section'>
-                                    <label className = 'email'>Email</label>
+                                    <label className = 'email'></label>
                                     <input className = 'input'
                                         type = 'email'
                                         name = 'email'
-                                        placeholder = 'Enter your email...' 
+                                        placeholder = 'Email.' 
                                         required
                                         value = {this.state.email}
                                         onChange = {this.onChange}
@@ -89,11 +88,11 @@ class Login extends Component {
                                     
                                     </div>
                                 <div className = 'section'>
-                                    <label className = 'password'>Password</label>
+                                    <label className = 'password'></label>
                                     <input className = 'input'
                                         type = 'password'
                                         name = 'password'
-                                        placeholder = 'Enter your password...' 
+                                        placeholder = 'Password...' 
                                         required
                                         value = {this.state.password}
                                         onChange ={this.onChange}
@@ -109,6 +108,9 @@ class Login extends Component {
                             </form>
                         </div>
                     </div>
+                    <p>{this.state.infoMsg}</p>
+                    <p>Not a member ?</p>
+                    <Link to= {'/register'}>Sign Up</Link>
                 </div>
             </div>
         );

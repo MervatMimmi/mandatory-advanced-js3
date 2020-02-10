@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { Helmet } from 'react-helmet';
-import  {Redirect } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
+import  {Redirect, Link } from 'react-router-dom';
 import axios from 'axios';
 import '../App.css';
 import Cat from '../Cat.jpg';
@@ -36,18 +36,15 @@ class Register extends Component {
                 console.log(response);
                 this.setState({isRegistered: true});
             })
-            .catch((error) => {
-                if(this.state.email === '' || this.state.password === '') {
-                    this.setState({infoMsg : 'Please fill the empty fild'});
-                    return;
-                } else {
-                    this.setState({infoMsg: 'User with that email address exists'});
-                    return;
+            .catch(response => {
+                if(response.response.status === 404){
+                    this.setState({infoMsg: 'Invalid value'})
+                } else if(response.response.status === 400) {
+                    this.setState({infoMsg: 'User with that email address exists'})
                 }
             });
     }
-    
-
+   
     componentWillUnmount() {
         if(this.source) {
             this.source.cancel();
@@ -58,11 +55,12 @@ class Register extends Component {
         this.setState({ [e.target.name]: e.target.value})
     }
 
-
     render() {
+
         if(this.state.isRegistered) {
             return <Redirect to='/' />;
         }
+        
         return (
             <div>
                 <div>
@@ -71,30 +69,30 @@ class Register extends Component {
                     </Helmet>
                 </div>
                 <div className ='window'>
-                    <div className = 'header'>Register</div>
                     <div className = 'frame'>
-                        <div className = 'cat'><img src = {Cat} /></div>
+                        <div className = 'cat'><img src = {Cat} alt = 'cat' /></div>
                         <div className = 'formContainer'>
+                        <div className = 'header'>Create an account</div>
                             <form onSubmit = {this.handleSubmit}>
                                 <div className = 'section'>
-                                    <label className = 'email'>Email</label>
+                                    <label className = 'email'></label>
                                     <input 
                                         className = 'input'
                                         type = 'email'
                                         name = 'email'
-                                        placeholder = 'Enter your email...'
+                                        placeholder = 'Email'
                                         required
                                         value = {this.state.email}
                                         onChange = {this.handleChange}
                                         />
                                 </div>
                                 <div className = 'section'>
-                                    <label className = 'password'>Password</label>
+                                    <label className = 'password'></label>
                                     <input 
                                         className = 'input'
                                         type = 'password'
                                         name = 'password'
-                                        placeholder = 'Enter your password...' 
+                                        placeholder = 'Password: least 3 characters' 
                                         required
                                         value = {this.state.password}
                                         onChange = {this.handleChange}/>
@@ -103,13 +101,15 @@ class Register extends Component {
                                     <button  
                                         className = 'btn'
                                         type = 'submit'>
-                                        Register
+                                        Sign up
                                     </button>
                                 </div>
                             </form>
-                            <p>{this.state.infoMsg}</p>
                         </div>
                     </div>
+                    <p>{this.state.infoMsg}</p>
+                    <p>Already a member ?</p>
+                    <Link to= {'/'}>Login</Link>
                 </div>
             </div>
         );

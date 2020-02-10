@@ -1,10 +1,7 @@
 import React, { Component } from "react";
-import {Helmet} from 'react-helmet';
-import {Redirect} from 'react-router-dom';
 import axios from 'axios';
-import {updateToken, token$} from './Store';
+import {token$} from './Store';
 import '../App.css';
-import Cat from '../Cat.jpg';
 
 let API_ROOT = 'http://3.120.96.16:3002';
 
@@ -23,10 +20,14 @@ class TodoList extends Component {
     }
 
     componentDidMount(){
-        token$.subscribe(token => {
+        this.subscription = token$.subscribe(token => {
             this.setState({token});
         });
         this.getTodo();
+    }
+
+    componentWillUnmount() {
+        this.subscription.unsubscribe();
     }
 
     getTodo() {
@@ -54,11 +55,11 @@ class TodoList extends Component {
             .then(response => {
                 console.log(response);
                 this.setState({redirect: true, newTodo: ''});
+                return this.getTodo();
             })
             .catch(error => {
                 console.error(error);
             })
-        this.getTodo();
     }
 
     delete(id){
@@ -77,7 +78,7 @@ class TodoList extends Component {
     handleChange(e) {  
         this.setState({ newTodo:e.target.value });
     }
- 
+
     render() {
 
         return (
