@@ -12,13 +12,13 @@ class App extends Component {
   render() {
     return (
       <HelmetProvider>
-      <div className="App">
-        <Router>
-          <Route exact path = '/' component = {Login} />
-          <Route path ='/register' component = {Register} />
-          <Route path = '/home' component = {Home}/>
-        </Router>
-      </div>
+        <div className="App">
+          <Router>
+            <Route exact path = '/' component = {Login} />
+            <Route path ='/register' component = {Register} />
+            <Route path = '/home' component = {Home}/>
+          </Router>
+        </div>
       </HelmetProvider>
     );
   } 

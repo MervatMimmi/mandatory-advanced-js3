@@ -25,7 +25,7 @@ class Register extends Component {
             email: this.state.email,
             password: this.state.password,
         }
-        console.log(data);
+        //console.log(data);
 
         this.source = axios.CancelToken.source();
            
@@ -60,6 +60,11 @@ class Register extends Component {
         if(this.state.isRegistered) {
             return <Redirect to='/' />;
         }
+
+        const addStyle = {
+            color: 'red'
+          }
+      
         
         return (
             <div>
@@ -68,48 +73,51 @@ class Register extends Component {
                         <title>Register</title>
                     </Helmet>
                 </div>
-                <div className ='window'>
-                    <div className = 'frame'>
-                        <div className = 'cat'><img src = {Cat} alt = 'cat' /></div>
-                        <div className = 'formContainer'>
-                        <div className = 'header'>Create an account</div>
-                            <form onSubmit = {this.handleSubmit}>
-                                <div className = 'section'>
-                                    <label className = 'email'></label>
-                                    <input 
-                                        className = 'input'
-                                        type = 'email'
-                                        name = 'email'
-                                        placeholder = 'Email'
-                                        required
-                                        value = {this.state.email}
-                                        onChange = {this.handleChange}
+                <div className = 'regLog'>
+                    <div className ='window'>
+                        <div className = 'frame'>
+                            <div className = 'cat'><img src = {Cat} alt = 'cat' /></div>
+                            <div className = 'formContainer'>
+                                <div className = 'header'>Create an account</div>
+                                <form onSubmit = {this.handleSubmit}>
+                                    <div className = 'section'>
+                                        <label className = 'email'></label>
+                                        <input 
+                                            className = 'input'
+                                            type = 'email'
+                                            name = 'email'
+                                            placeholder = 'Email'
+                                            required
+                                            value = {this.state.email}
+                                            onChange = {this.handleChange}
                                         />
-                                </div>
-                                <div className = 'section'>
-                                    <label className = 'password'></label>
-                                    <input 
-                                        className = 'input'
-                                        type = 'password'
-                                        name = 'password'
-                                        placeholder = 'Password: least 3 characters' 
-                                        required
-                                        value = {this.state.password}
-                                        onChange = {this.handleChange}/>
-                                </div> 
-                                <div className = 'footer'>
-                                    <button  
-                                        className = 'btn'
-                                        type = 'submit'>
-                                        Sign up
-                                    </button>
-                                </div>
-                            </form>
+                                    </div>
+                                    <div className = 'section'>
+                                        <label className = 'password'></label>
+                                        <input 
+                                            className = 'input'
+                                            type = 'password'
+                                            name = 'password'
+                                            placeholder = 'Password: least 3 characters' 
+                                            required
+                                            value = {this.state.password}
+                                            onChange = {this.handleChange}
+                                        />
+                                    </div> 
+                                    <div className = 'footer'>
+                                        <button  
+                                            className = 'btn'
+                                            type = 'submit'>
+                                            Sign up
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
+                        <p style={addStyle}>{this.state.infoMsg}</p>
+                        <p>Already a member ?</p>
+                        <Link to= {'/'}>Login</Link>
                     </div>
-                    <p>{this.state.infoMsg}</p>
-                    <p>Already a member ?</p>
-                    <Link to= {'/'}>Login</Link>
                 </div>
             </div>
         );

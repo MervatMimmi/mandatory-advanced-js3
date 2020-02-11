@@ -36,8 +36,7 @@ class Login extends Component {
             email:this.state.email,
             password: this.state.password,
             }
-
-        console.log(loginData);
+        //console.log(loginData);
 
         let API_ROOT = 'http://3.120.96.16:3002';
 
@@ -50,18 +49,24 @@ class Login extends Component {
             .catch(response => {
                 if(response.response.status === 401){
                     this.setState({infoMsg: 'Email or password incorrect'})
-                } 
+                    } 
                 });
-        }
+    }
 
     onChange(e){
         this.setState({ [e.target.name]: e.target.value})
     }
     
     render() {
+
         if(this.state.isLoggedIn) {
             return <Redirect to= '/home' />;
         }
+
+        const addStyle = {
+            color: 'red'
+        }
+
         return(
             <div>
                 <div>
@@ -69,48 +74,49 @@ class Login extends Component {
                         <title>Login</title>
                     </Helmet>
                 </div>
-            <   div className ='window'>
-                    <div className = 'frame'>
-                        <div className = 'cat'><img src = {Cat} alt = 'cat' /></div>
-                        <div className = 'formContainer'>
-                        <div className = 'header'>Member login</div>
-                            <form onSubmit = {this.handleSubmit}>
-                                <div className = 'section'>
-                                    <label className = 'email'></label>
-                                    <input className = 'input'
-                                        type = 'email'
-                                        name = 'email'
-                                        placeholder = 'Email.' 
-                                        required
-                                        value = {this.state.email}
-                                        onChange = {this.onChange}
-                                        />
-                                    
+                <div className = 'regLog'>
+                    <div className ='window'>
+                        <div className = 'frame'>
+                            <div className = 'cat'><img src = {Cat} alt = 'cat' /></div>
+                            <div className = 'formContainer'>
+                                <div className = 'header'>Member login</div>
+                                <form onSubmit = {this.handleSubmit}>
+                                    <div className = 'section'>
+                                        <label className = 'email'></label>
+                                        <input className = 'input'
+                                            type = 'email'
+                                            name = 'email'
+                                            placeholder = 'Email.' 
+                                            required
+                                            value = {this.state.email}
+                                            onChange = {this.onChange}
+                                            />
+                                        </div>
+                                    <div className = 'section'>
+                                        <label className = 'password'></label>
+                                        <input className = 'input'
+                                            type = 'password'
+                                            name = 'password'
+                                            placeholder = 'Password...' 
+                                            required
+                                            value = {this.state.password}
+                                            onChange ={this.onChange}
+                                            />
+                                    </div> 
+                                    <div className = 'footer'>
+                                        <button  
+                                            className = 'btn'
+                                            type = 'submit'>
+                                            Login
+                                        </button>
                                     </div>
-                                <div className = 'section'>
-                                    <label className = 'password'></label>
-                                    <input className = 'input'
-                                        type = 'password'
-                                        name = 'password'
-                                        placeholder = 'Password...' 
-                                        required
-                                        value = {this.state.password}
-                                        onChange ={this.onChange}
-                                        />
-                                </div> 
-                                <div className = 'footer'>
-                                    <button  
-                                        className = 'btn'
-                                        type = 'submit'>
-                                        Login
-                                    </button>
-                                </div>
-                            </form>
+                                </form>
+                            </div>
                         </div>
+                        <p style ={addStyle}>{this.state.infoMsg}</p>
+                        <p>Not a member ?</p>
+                        <Link to= {'/register'}>Sign Up</Link>
                     </div>
-                    <p>{this.state.infoMsg}</p>
-                    <p>Not a member ?</p>
-                    <Link to= {'/register'}>Sign Up</Link>
                 </div>
             </div>
         );

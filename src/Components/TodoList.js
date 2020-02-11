@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { GoTrashcan } from "react-icons/go";
 import axios from 'axios';
 import {token$} from './Store';
 import '../App.css';
@@ -110,9 +111,9 @@ class TodoList extends Component {
                                     key = {item.id}>
                                         {item.content}
                                         <button
-                                            className ='btn'
+                                            className ='btnList'
                                             onClick = {(e) => this.delete(item.id)}>
-                                            Delete
+                                            <GoTrashcan />
                                         </button>
                                 </li>
                             )

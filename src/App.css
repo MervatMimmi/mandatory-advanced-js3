@@ -1,4 +1,4 @@
-.App{
+.regLog{
   position: absolute;
   left: 50%;
   top: 50%;
@@ -14,6 +14,7 @@
 
 .header{
   font-size: 24px;  
+  max-height: 100px;
   font-family: 'open Sans', sans-serif;
 }
 
@@ -29,6 +30,23 @@
 img{
   width: 100%;
   height: 100%;
+}
+
+nav{
+  display : flex;
+  padding: 40px;
+  min-height: 15vh;
+}
+
+.nav-links{
+  position: absolut;
+  margin-top: 15px;;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+a:link{
+  text-decoration: none;
 }
 
 .welcome{
@@ -49,6 +67,7 @@ img{
   flex-direction: column;
   align-items: flex-start;
   width: fit-content;
+  padding: 0;
 }
 
 label{
@@ -98,7 +117,7 @@ label{
 }
 
 .btnTodo{
-  font-size: 15px;
+  font-size: 17px;
   padding: 5px 20px;
   border: 0;
   margin-left: 1em;
@@ -112,5 +131,52 @@ label{
   background-color: #2386c8;
 }
 .btnTodo:focus {
+  outline:none;
+}
+
+ul{
+  list-style: none;
+}
+li{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.btnList{
+  position: absolute;
+  margin-left:345px;
+  font-size: 21px;
+  padding: 5px 20px;
+  border: 0;
+  background-color: #3498db;
+  color: #fff;
+  border-radius: 3px;
+  transition: all 250ms ease-in-out;
+  cursor:pointer;
+}
+
+.btnList:hover{
+  background-color: #2386c8;
+}
+
+.btnList:focus {
+  outline:none;
+}
+
+.btnLogout{
+  font-size: 17px;
+  padding: 5px 20px;
+  border: 0;
+  background-color: #3498db;
+  color: #fff;
+  border-radius: 3px;
+  transition: all 250ms ease-in-out;
+  cursor:pointer;
+}
+.btnLogout:hover{
+  background-color: #2386c8;
+}
+.btnLogout:focus {
   outline:none;
 }

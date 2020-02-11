@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { Helmet } from 'react-helmet-async';
 import {Redirect} from 'react-router-dom';
 import jwt from 'jsonwebtoken';
-import {updateToken, token$} from './Store';
+import {token$} from './Store';
+import Nav from './Nav';
 import TodoList from './TodoList';
 import '../App.css';
 import Cat from '../Cat.jpg';
@@ -14,26 +15,21 @@ class Home extends Component {
             token: token$.value,
             decodedEmail: '',
         };
-        this.logOut = this.logOut.bind(this);
     }
 
     componentDidMount() {
-       this.subscribe = token$.subscribe((token) => {
-           this.setState({token}); 
-           if (token) {
+        this.subscribe = token$.subscribe((token) => {
+            this.setState({token}); 
+            if (token) {
              const decode = jwt.decode(this.state.token);
              console.log(decode);
              this.setState({decodedEmail: decode.email});
-           }
-       });
+            }
+        });
     }
     
     componentWillUnmount() {
         this.subscribe.unsubscribe();
-    }
-    
-    logOut() {
-        updateToken(null);
     }
     
     render() {
@@ -46,29 +42,27 @@ class Home extends Component {
         }
 
         return (
-           <div>
-               <div>
-                   <Helmet>
+            <div>
+                <div>
+                    <Helmet>
                        <title>Home</title>
-                   </Helmet>
-               </div>
-               <div className = 'window'>
-                   <div className = 'header'>
+                    </Helmet>
+                </div>
+                <div className = 'header'>
+                <Nav/>
+                </div>
+                <div className = 'window'>
+                    <div className = 'header'>
                        TodoList
-                   </div>
-                   <div className = 'frame'>
-                       <div className = 'cat'><img src = {Cat} alt = 'cat'/></div>
-                       <div className = 'welcome'>
+                    </div>
+                    <div className = 'frame'>
+                        <div className = 'cat'><img src = {Cat} alt = 'cat'/></div>
+                        <div className = 'welcome'>
                            <h3>Welcome {username}</h3>
-                       </div>
+                        </div>
                         <TodoList />
                     </div>
                 </div>
-                <button 
-                    className = 'btn'
-                    onClick = {this.logOut}
-                    >LOGOUT
-                </button>
             </div>
         )
     }
